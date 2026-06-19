@@ -1,0 +1,16 @@
+# 密钥 / 本地启动（含真实 Key，绝不提交）
+run.bat
+.env
+
+# 测试产物
+test_output.png
+card_preview.html
+card_shot.png
+server.log
+share.log
+img_resp.json
+
+# Python
+__pycache__/
+*.pyc
+venv/

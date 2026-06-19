@@ -1,0 +1,15 @@
+@echo off
+chcp 65001 >nul
+REM ===== 复制本文件为 run.bat，填入你自己的 Key 后双击运行 =====
+set NOVA_BASE_URL=https://us.novaiapi.com/v1
+set NOVA_API_KEY=在这里填你的Key
+set TEXT_MODEL=gemini-3-pro-preview
+set IMAGE_MODEL=gemini-3-pro-image-preview
+set GRADIO_SHARE=1
+REM ============================================================
+set PYTHONIOENCODING=utf-8
+set PYTHONUNBUFFERED=1
+pushd "%~dp0"
+python app.py
+popd
+pause
