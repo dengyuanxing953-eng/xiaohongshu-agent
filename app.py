@@ -193,4 +193,9 @@ if __name__ == "__main__":
     if not API_KEY:
         print("⚠️  未设置 NOVA_API_KEY，请用 run.bat 启动或先设置环境变量。")
     share = os.getenv("GRADIO_SHARE", "0") == "1"
-    demo.launch(share=share, css=".card-out{min-height:440px;}")
+    demo.launch(
+        server_name="0.0.0.0",                       # 部署平台需要
+        server_port=int(os.getenv("PORT", "7860")),  # 平台会注入 PORT
+        share=share,
+        css=".card-out{min-height:440px;}",
+    )
