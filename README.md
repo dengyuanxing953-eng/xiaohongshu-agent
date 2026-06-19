@@ -1,47 +1,41 @@
 # 小红书智能体 Demo
 
-输入主题 → 自动生成小红书笔记文案（Claude）+ 配图（OpenAI gpt-image-1），网页界面（Gradio）。
+输入主题 → 自动生成小红书笔记**文案 + 配图**，输出成可视化卡片。
 
-## 1. 安装依赖
+## 效果预览
 
-建议用虚拟环境：
+![卡片预览](preview.png)
+
+## 能力
+
+- **文案**：根据主题和风格（种草 / 测评 / 教程 / 攻略 / 情绪向）生成标题、正文、话题标签
+- **配图**：根据文案自动生成配套图片
+- **可视化**：输出为小红书风格笔记卡片
+
+## 技术栈
+
+| 模块 | 当前模型 | 接口 |
+|------|---------|------|
+| 文案 | `gemini-3-pro-preview` | novaiapi 中转（OpenAI 兼容） |
+| 配图 | `gemini-3-pro-image-preview` | 同上 |
+| 界面 | Gradio | — |
+
+> 模型背后是同一个接口，换 Claude / ChatGPT 只需改 `TEXT_MODEL` / `IMAGE_MODEL` 环境变量。
+
+## 本地运行
 
 ```bash
-cd xiaohongshu-agent
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
+# 复制 run.bat.example 为 run.bat，填入你的 NOVA_API_KEY，双击运行
 ```
 
-## 2. 设置两个 API Key
+或手动设置环境变量后 `python app.py`：
 
-```bash
-# macOS / Linux / WSL
-export ANTHROPIC_API_KEY="你的Claude密钥"
-export OPENAI_API_KEY="你的OpenAI密钥"
+- `NOVA_BASE_URL`（默认 https://us.novaiapi.com/v1）
+- `NOVA_API_KEY`（必填）
+- `TEXT_MODEL` / `IMAGE_MODEL`
 
-# Windows PowerShell
-$env:ANTHROPIC_API_KEY="你的Claude密钥"
-$env:OPENAI_API_KEY="你的OpenAI密钥"
-```
+## 后续规划
 
-## 3. 运行
-
-```bash
-python app.py
-```
-
-启动后浏览器打开终端里给出的地址（默认 http://127.0.0.1:7860），
-输入主题点「生成」即可。
-
-## 文件说明
-
-- `app.py` — 全部逻辑：Gradio 界面 + Claude 文案 + OpenAI 生图
-- `requirements.txt` — 依赖
-- `XHSPost` 数据结构 — 标题 / 正文 / 标签 / 配图prompt，由 Claude 结构化输出
-
-## 后续扩展方向
-
-- 文案风格切换（种草 / 测评 / 教程 / 情绪向）
-- 一次出多张图供挑选、文案/图「换一版」
-- 上云部署 + 接入飞书机器人（核心逻辑不变，替换前端入口即可）
+- 部署到公网平台，拿到固定网址
+- 接入飞书机器人（一个机器人 + 背后多模型路由）
